@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Commande;
 use App\Entity\CommandeDeclinaison;
 use App\Repository\CommandeDeclinaisonRepository;
+use App\Repository\CommandeRepository;
+use App\Repository\StatutRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,22 +19,27 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class CommandeController extends AbstractController {
 
     private SerializerInterface $serializer;
-    private CommandeDeclinaisonRepository $commandeDeclinaisonRepository;
+    private CommandeRepository $commandeRepository;
     private ValidatorInterface $validator;
     private EntityManagerInterface $entityManager;
+    private StatutRepository $statutRepository;
+    private CommandeDeclinaisonRepository $commandeDeclinaisonRepository;
 
-    public function __construct(SerializerInterface $serializer, CommandeDeclinaisonRepository $commandeDeclinaisonRepository,
-                                ValidatorInterface $validator, EntityManagerInterface $entityManager) {
+    public function __construct(SerializerInterface $serializer, CommandeRepository $commandeRepository,
+                                ValidatorInterface $validator, EntityManagerInterface $entityManager,
+                                StatutRepository $statutRepository, CommandeDeclinaisonRepository $commandeDeclinaisonRepository) {
         $this->serializer = $serializer;
-        $this->commandeDeclinaisonRepository = $commandeDeclinaisonRepository;
+        $this->commandeRepository = $commandeRepository;
         $this->validator = $validator;
         $this->entityManager = $entityManager;
+        $this->statutRepository = $statutRepository;
+        $this->commandeDeclinaisonRepository = $commandeDeclinaisonRepository;
     }
 
     /**
-     * @Route("/api/commandes", name="get_commande_getCommandes", methods={"GET"})
+     * @Route("/api/commandeDeclinaisons", name="get_commandeDeclinaison_getCommandeDeclinaisons", methods={"GET"})
      */
-    public function getCommandes(): Response {
+    public function getCommandeDeclinaisons(): Response {
         $articlesJson = $this->serializer->serialize($this->commandeDeclinaisonRepository->findAll(), "json", ["groups" => "commande_groups"]);
         return new JsonResponse($articlesJson, Response::HTTP_OK, [], true);
     }
@@ -40,10 +48,16 @@ class CommandeController extends AbstractController {
      * @Route("/api/commandes/{id}", name="get_commande_updateCommande", methods={"PUT"})
      */
     public function updateCommande($id, Request $request): Response {
-        $commandeJson = $request->getContent();
-        $commande = $this->commandeDeclinaisonRepository->find($id);
-        $this->serializer->deserialize($commandeJson,CommandeDeclinaison::class,'json',
+        $bodyContent = $request->getContent();
+        $commande = $this->commandeRepository->find($id);
+        $this->serializer->deserialize($bodyContent,Commande::class,'json',
             ["object_to_populate" => $commande]);
+
+        $infos = json_decode($bodyContent, true);
+        if (isset($infos["idStatut"])) {
+            $statut = $this->statutRepository->find($infos["idStatut"]);
+            $commande->setIdStatut($statut);
+        }
 
         $responseValidate = $this->validatorErrors($commande);
         if (! is_null($responseValidate)) {
@@ -53,8 +67,8 @@ class CommandeController extends AbstractController {
         return new Response("", Response::HTTP_NO_CONTENT);
     }
 
-    private function validatorErrors(CommandeDeclinaison $commandeDeclinaison): ?Response {
-        $errors = $this->validator->validate($commandeDeclinaison);
+    private function validatorErrors(Commande $commande): ?Response {
+        $errors = $this->validator->validate($commande);
         if (count($errors)) {
             $errorsJSON = $this->serializer->serialize($errors, "json");
             return new JsonResponse($errorsJSON, Response::HTTP_BAD_REQUEST, [], true);
