@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Declinaison
@@ -18,6 +19,7 @@ class Declinaison
      * @ORM\Column(name="id_declinaison", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("commande_groups")
      */
     private $idDeclinaison;
 
@@ -25,6 +27,7 @@ class Declinaison
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=50, nullable=false)
+     * @Groups("commande_groups")
      */
     private $nom;
 
@@ -32,6 +35,7 @@ class Declinaison
      * @var string
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=false)
+     * @Groups("commande_groups")
      */
     private $description;
 

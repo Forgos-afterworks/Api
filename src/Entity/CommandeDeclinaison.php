@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * CommandeDeclinaison
@@ -17,6 +18,7 @@ class CommandeDeclinaison {
      * @ORM\Column(name="id_commande_declinaison", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("commande_groups")
      */
     private $idCommandeDeclinaison;
 
@@ -24,6 +26,7 @@ class CommandeDeclinaison {
      * @var int
      *
      * @ORM\Column(name="quantitee", type="integer", nullable=false)
+     * @Groups("commande_groups")
      */
     private $quantitee;
 
@@ -31,6 +34,7 @@ class CommandeDeclinaison {
      * @var float
      *
      * @ORM\Column(name="prix_HT", type="float", precision=10, scale=0, nullable=false)
+     * @Groups("commande_groups")
      */
     private $prixHt;
 
@@ -41,6 +45,7 @@ class CommandeDeclinaison {
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_produit_declinaison", referencedColumnName="id_produit_declinaison")
      * })
+     * @Groups("commande_groups")
      */
     private $idProduitDeclinaison;
 
@@ -51,6 +56,7 @@ class CommandeDeclinaison {
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_commande", referencedColumnName="id_commande")
      * })
+     * @Groups("commande_groups")
      */
     private $idCommande;
 

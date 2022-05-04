@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Tva
@@ -17,6 +18,7 @@ class Tva {
      * @ORM\Column(name="id_tva", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("commande_groups")
      */
     private $idTva;
 
@@ -24,6 +26,7 @@ class Tva {
      * @var int
      *
      * @ORM\Column(name="pourcentage", type="integer", nullable=false)
+     * @Groups("commande_groups")
      */
     private $pourcentage;
 

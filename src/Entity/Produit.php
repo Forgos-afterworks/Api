@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Produit
@@ -18,6 +19,7 @@ class Produit
      * @ORM\Column(name="id_produit", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("commande_groups")
      */
     private $idProduit;
 
@@ -25,6 +27,7 @@ class Produit
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=50, nullable=false)
+     * @Groups("commande_groups")
      */
     private $nom;
 
@@ -32,6 +35,7 @@ class Produit
      * @var string
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=false)
+     * @Groups("commande_groups")
      */
     private $description;
 
@@ -39,6 +43,7 @@ class Produit
      * @var float
      *
      * @ORM\Column(name="prix_unitaire", type="float", precision=10, scale=0, nullable=false)
+     * @Groups("commande_groups")
      */
     private $prixUnitaire;
 
@@ -46,6 +51,7 @@ class Produit
      * @var string|null
      *
      * @ORM\Column(name="image", type="text", length=65535, nullable=true)
+     * @Groups("commande_groups")
      */
     private $image;
 
@@ -53,6 +59,7 @@ class Produit
      * @var int
      *
      * @ORM\Column(name="nombre_en_stock", type="integer", nullable=false)
+     * @Groups("commande_groups")
      */
     private $nombreEnStock;
 
@@ -63,6 +70,7 @@ class Produit
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_categorie", referencedColumnName="id_categorie")
      * })
+     * @Groups("commande_groups")
      */
     private $idCategorie;
 
@@ -73,6 +81,7 @@ class Produit
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_tva", referencedColumnName="id_tva")
      * })
+     * @Groups("commande_groups")
      */
     private $idTva;
 

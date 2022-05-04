@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Statut
@@ -17,6 +18,7 @@ class Statut {
      * @ORM\Column(name="id_statut", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("commande_groups")
      */
     private $idStatut;
 
@@ -24,6 +26,7 @@ class Statut {
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=50, nullable=false)
+     * @Groups("commande_groups")
      */
     private $nom;
 
@@ -31,6 +34,7 @@ class Statut {
      * @var string
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=false)
+     * @Groups("commande_groups")
      */
     private $description;
 
