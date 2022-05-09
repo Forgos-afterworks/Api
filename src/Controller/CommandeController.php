@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Commande;
-use App\Entity\CommandeDeclinaison;
 use App\Repository\CommandeDeclinaisonRepository;
 use App\Repository\CommandeRepository;
 use App\Repository\StatutRepository;
@@ -37,10 +36,10 @@ class CommandeController extends AbstractController {
     }
 
     /**
-     * @Route("/api/commandeDeclinaisons", name="get_commandeDeclinaison_getCommandeDeclinaisons", methods={"GET"})
+     * @Route("/api/commandes", name="get_commande_getCommandes", methods={"GET"})
      */
-    public function getCommandeDeclinaisons(): Response {
-        $articlesJson = $this->serializer->serialize($this->commandeDeclinaisonRepository->findAll(), "json", ["groups" => "commande_groups"]);
+    public function getCommandes(): Response {
+        $articlesJson = $this->serializer->serialize($this->commandeRepository->findAll(), "json", ["groups" => "commande_groups"]);
         return new JsonResponse($articlesJson, Response::HTTP_OK, [], true);
     }
 
