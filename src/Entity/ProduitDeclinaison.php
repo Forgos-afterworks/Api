@@ -18,7 +18,7 @@ class ProduitDeclinaison {
      * @ORM\Column(name="id_produit_declinaison", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @Groups("commande_groups")
+     * @Groups({"commande_groups", "commandeDeclinaison_groups"})
      */
     private $idProduitDeclinaison;
 
@@ -29,7 +29,7 @@ class ProduitDeclinaison {
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_declinaison", referencedColumnName="id_declinaison")
      * })
-     * @Groups("commande_groups")
+     * @Groups({"commande_groups", "commandeDeclinaison_groups"})
      */
     private $idDeclinaison;
 
@@ -40,7 +40,7 @@ class ProduitDeclinaison {
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_produit", referencedColumnName="id_produit")
      * })
-     * @Groups("commande_groups")
+     * @Groups({"commande_groups", "commandeDeclinaison_groups"})
      */
     private $idProduit;
 

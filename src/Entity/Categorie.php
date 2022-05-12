@@ -19,7 +19,7 @@ class Categorie
      * @ORM\Column(name="id_categorie", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @Groups("commande_groups")
+     * @Groups({"commande_groups", "commandeDeclinaison_groups", "categorie_read", "produit_read"})
      */
     private $idCategorie;
 
@@ -27,7 +27,7 @@ class Categorie
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=50, nullable=false)
-     * @Groups("commande_groups")
+     * @Groups({"commande_groups", "commandeDeclinaison_groups", "categorie_read", "produit_read"})
      */
     private $nom;
 
@@ -35,7 +35,7 @@ class Categorie
      * @var string
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=false)
-     * @Groups("commande_groups")
+     * @Groups({"commande_groups", "commandeDeclinaison_groups", "categorie_read", "produit_read"})
      */
     private $description;
 

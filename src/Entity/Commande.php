@@ -19,7 +19,7 @@ class Commande
      * @ORM\Column(name="id_commande", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @Groups("commande_groups")
+     * @Groups({"commande_groups", "commandeDeclinaison_groups"})
      */
     private $idCommande;
 
@@ -27,7 +27,7 @@ class Commande
      * @var \DateTime
      *
      * @ORM\Column(name="date", type="date", nullable=false)
-     * @Groups("commande_groups")
+     * @Groups({"commande_groups", "commandeDeclinaison_groups"})
      */
     private $date;
 
@@ -38,7 +38,7 @@ class Commande
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_statut", referencedColumnName="id_statut")
      * })
-     * @Groups("commande_groups")
+     * @Groups({"commande_groups", "commandeDeclinaison_groups"})
      */
     private $idStatut;
 
@@ -49,7 +49,7 @@ class Commande
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_table", referencedColumnName="id_table")
      * })
-     * @Groups("commande_groups")
+     * @Groups({"commande_groups", "commandeDeclinaison_groups"})
      */
     private $idTable;
 

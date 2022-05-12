@@ -20,7 +20,7 @@ class RoleController extends AbstractController {
     }
 
     /**
-     * @Route("/api/roles", name="get_role_getAllRoles")
+     * @Route("/api/roles", name="get_role_getAllRoles", methods="GET")
      */
     public function getAllRoles(): Response {
         $roles = $this->roleRepository->findAll();

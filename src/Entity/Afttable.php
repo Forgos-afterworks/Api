@@ -19,7 +19,7 @@ class Afttable
      * @ORM\Column(name="id_table", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @Groups("commande_groups")
+     * @Groups({"commande_groups", "commandeDeclinaison_groups"})
      */
     private $idTable;
 
@@ -27,7 +27,7 @@ class Afttable
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=5, nullable=false)
-     * @Groups("commande_groups")
+     * @Groups({"commande_groups", "commandeDeclinaison_groups"})
      */
     private $nom;
 
