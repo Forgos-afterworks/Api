@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Categorie;
+use App\Entity\Produit;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -12,13 +14,21 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Categorie[]    findAll()
  * @method Categorie[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CategorieRepository extends ServiceEntityRepository
-{
-    public function __construct(ManagerRegistry $registry)
-    {
+class CategorieRepository extends ServiceEntityRepository {
+    public function __construct(ManagerRegistry $registry) {
         parent::__construct($registry, Categorie::class);
     }
 
+    public function getCategorieWithProduct(): array {
+        return $this->createQueryBuilder("c")
+            ->distinct()
+            ->select("c.idCategorie, c.nom, count(p.idProduit) as NbrProduct")
+            ->innerJoin(Produit::class, "p", Join::WITH, "c.idCategorie=p.idCategorie")
+            ->groupBy("c.idCategorie, c.nom")
+            ->having("count(p.idProduit) > 0")
+            ->orderBy("NbrProduct", "DESC")
+            ->getQuery()->getArrayResult();
+    }
     // /**
     //  * @return Categorie[] Returns an array of Categorie objects
     //  */

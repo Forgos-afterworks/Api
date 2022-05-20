@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : lun. 09 mai 2022 à 14:45
+-- Généré le : ven. 20 mai 2022 à 08:16
 -- Version du serveur :  10.4.13-MariaDB
 -- Version de PHP : 7.4.7
 
@@ -130,7 +130,7 @@ CREATE TABLE `client` (
 --
 
 INSERT INTO `client` (`id_client`, `prenom`, `nom`, `mail`, `lib_adresse`, `cp_adresse`, `ville_adresse`, `tel`, `password`, `newsletter`, `role_JWT`) VALUES
-(1, 'johan', 'ROUSSEAU', 'johan.rousseau39@gmail.com', 'rue de la faïencerie', '39600', 'Arbois', '0612345678', '$2y$13$Z.lpkjsZ.j1jyQlD7oYaweXXxOj2AJD8W41B8gJRxAlYBQH7lPhmy', 0, NULL);
+(1, 'johan', 'ROUSSEAU', 'johan.rousseau39@gmail.com', 'rue de la faïencerie', '39600', 'Arbois', '0612345678', '$2y$10$xe2DYLLh8vYnpQXp3ZiYQeIXalOVO3nchePy.s95gIQ8Ko2uHK8jK', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -150,8 +150,9 @@ CREATE TABLE `commande` (
 --
 
 INSERT INTO `commande` (`id_commande`, `id_table`, `id_statut`, `date`) VALUES
-(1, 1, 2, '2022-03-01'),
-(2, 1, 1, '2022-02-03');
+(1, 1, 5, '2022-03-01'),
+(2, 1, 1, '2022-02-03'),
+(3, 1, 1, '2022-05-03');
 
 -- --------------------------------------------------------
 
@@ -240,7 +241,7 @@ CREATE TABLE `employe` (
   `cp_adresse` varchar(25) DEFAULT NULL,
   `date_embauche` date NOT NULL,
   `id_role` int(11) NOT NULL,
-  `password` varchar(50) NOT NULL,
+  `password` text DEFAULT NULL,
   `mail` varchar(50) NOT NULL,
   `role_JWT` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`role_JWT`))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -250,8 +251,7 @@ CREATE TABLE `employe` (
 --
 
 INSERT INTO `employe` (`id_employe`, `nom`, `prenom`, `lib_adresse`, `ville_adresse`, `cp_adresse`, `date_embauche`, `id_role`, `password`, `mail`, `role_JWT`) VALUES
-(143, 'Brassens', 'George', 'rue de la faïencerie', 'Arbois', '39600', '2020-03-14', 2, '$2y$13$Z.lpkjsZ.j1jyQlD7oYaweXXxOj2AJD8W41B8gJRxAl', 'johan.rousseau@gmail.com', '[]'),
-(314, 'Ferrat', 'Jean', 'rue de la faïencerie', 'Arbois', '39600', '2021-03-14', 1, '$2y$13$Z.lpkjsZ.j1jyQlD7oYaweXXxOj2AJD8W41B8gJRxAl', 'johan.rousseau2@gmail.com', '[]');
+(143, 'Brassens', 'George', 'rue de la faïencerie', 'Arbois', '39600', '2022-05-04', 2, '$2y$10$xe2DYLLh8vYnpQXp3ZiYQeIXalOVO3nchePy.s95gIQ8Ko2uHK8jK', 'johan.rousseau@gmail.com', '[]');
 
 -- --------------------------------------------------------
 
@@ -821,8 +821,17 @@ CREATE TABLE `statut` (
 --
 
 INSERT INTO `statut` (`id_statut`, `nom`, `description`) VALUES
-(1, 'Préparation', 'Votre commande est en cours de préparation.'),
-(2, 'Livrée', 'Votre commande a été livrée avec succès.');
+(1, 'Nouvelle commande', 'La commande viens d\'être créée.'),
+(2, 'Acceptée ', 'La commande à été acceptée.'),
+(3, 'Refusée', 'La commande à été refusée.\r\n'),
+(4, 'En préparation', 'La commande est en préparation.'),
+(5, 'En attente, de livraison', 'La commande est en attente de livraison.'),
+(6, 'Livrée', 'La commande à été livrée en salle.'),
+(7, 'Payée', 'La commande à été payée.'),
+(8, 'Client partis avant livraison', 'Le client est partis avant la livraison.'),
+(9, 'Client partis après livraison', 'Le client est partis après la livraison.'),
+(10, 'Rupture de stock', 'La commande est en rupture de stock.'),
+(11, 'Réclamation', 'Le client à demandé une réclamation après être livré.');
 
 -- --------------------------------------------------------
 
@@ -981,7 +990,7 @@ ALTER TABLE `client`
 -- AUTO_INCREMENT pour la table `commande`
 --
 ALTER TABLE `commande`
-  MODIFY `id_commande` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_commande` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pour la table `commande_declinaison`
@@ -1023,7 +1032,7 @@ ALTER TABLE `rubrique`
 -- AUTO_INCREMENT pour la table `statut`
 --
 ALTER TABLE `statut`
-  MODIFY `id_statut` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_statut` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT pour la table `tva`

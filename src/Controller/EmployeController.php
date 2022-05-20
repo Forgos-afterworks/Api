@@ -75,6 +75,33 @@ class EmployeController extends AbstractController {
 
     }
 
+    /**
+     * @Route("/api/employes", name="api_employe_createEmploye", methods={"POST"})
+     */
+    public function createEmploye(Request $request): Response {
+        $bodyContent = $request->getContent();
+        try {
+            $employe = $this->serializer->deserialize($bodyContent, Employe::class, "json");
+
+            $errors = $this->validatorErrors($employe);
+            if (!is_null($errors)) return $errors;
+
+            $this->entityManager->persist($employe);
+            $this->entityManager->flush();
+
+            $employeJson = $this->serializer->serialize($employe, "json");
+            return new JsonResponse($employeJson, Response::HTTP_CREATED, [], true);
+        }
+            //Je vais intercepter une éventuelle exception
+        catch (\Exception $exception) {
+            $error = [
+                "status" => Response::HTTP_BAD_REQUEST,
+                "message" => "Le JSON envoyer dans la requete n'est pas valide."
+            ];
+            return new JsonResponse(json_encode($error), $error["status"], [], true);
+        }
+    }
+
     private function validatorErrors(Employe $employe): ?Response {
         $errors = $this->validator->validate($employe);
         if (count($errors)) {
