@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Article
@@ -18,6 +19,7 @@ class Article
      * @ORM\Column(name="id_article", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("article_read")
      */
     private $idArticle;
 
@@ -25,6 +27,7 @@ class Article
      * @var string
      *
      * @ORM\Column(name="titre", type="string", length=50, nullable=false)
+     * @Groups("article_read")
      */
     private $titre;
 
@@ -32,6 +35,7 @@ class Article
      * @var \DateTime
      *
      * @ORM\Column(name="date_creation", type="date", nullable=false)
+     * @Groups("article_read")
      */
     private $dateCreation;
 
@@ -39,6 +43,7 @@ class Article
      * @var string
      *
      * @ORM\Column(name="contenue", type="text", length=65535, nullable=false)
+     * @Groups("article_read")
      */
     private $contenue;
 
@@ -49,6 +54,7 @@ class Article
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_rubrique", referencedColumnName="id_rubrique")
      * })
+     * @Groups("article_read")
      */
     private $idRubrique;
 
@@ -59,6 +65,7 @@ class Article
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_employe", referencedColumnName="id_employe")
      * })
+     * @Groups("article_read")
      */
     private $idEmploye;
 

@@ -54,6 +54,15 @@ class CommandeController extends AbstractController {
     }
 
     /**
+     * @Route("/api/commandes/{idCommand}", name="get_commande_getCommandByIdCommand", methods={"GET"})
+     */
+    public function getCommandByIdCommand($idCommand): Response {
+        $articlesJson = $this->serializer->serialize($this->commandeRepository->findBy(["idCommande" =>$idCommand]),
+            "json", ["groups" => "commande_groups"]);
+        return new JsonResponse($articlesJson, Response::HTTP_OK, [], true);
+    }
+
+    /**
      * @Route("/api/commandes/{id}", name="get_commande_updateCommande", methods={"PUT"})
      */
     public function updateCommande($id, Request $request): Response {

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Declinaison;
 use App\Repository\DeclinaisonRepository;
+use App\Repository\ProduitDeclinaisonRepository;
 use App\Repository\ProduitRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,15 +22,17 @@ class DeclinaisonController extends AbstractController {
     private ValidatorInterface $validator;
     private EntityManagerInterface $entityManager;
     private ProduitRepository $produitRepository;
+    private ProduitDeclinaisonRepository $produitDeclinaisonRepository;
 
     public function __construct(ValidatorInterface  $validator, DeclinaisonRepository $declinaisonRepository,
                                 SerializerInterface $serializer, EntityManagerInterface $entityManager,
-                                ProduitRepository $produitRepository) {
+                                ProduitRepository $produitRepository, ProduitDeclinaisonRepository $produitDeclinaisonRepository) {
         $this->serializer = $serializer;
         $this->validator = $validator;
         $this->entityManager = $entityManager;
         $this->declinaisonRepository = $declinaisonRepository;
         $this->produitRepository = $produitRepository;
+        $this->produitDeclinaisonRepository = $produitDeclinaisonRepository;
     }
 
     /**
@@ -49,6 +52,14 @@ class DeclinaisonController extends AbstractController {
             return $this->declinaisonDoesntExist();
         }
         $declinaisonsJson = $this->serializer->serialize($declinaison, "json", ["groups" => "declinaison_read"]);
+        return new JsonResponse($declinaisonsJson, Response::HTTP_OK, [], true);
+    }
+
+    /**
+     * @Route("/api/produitsdeclinaisons/{idProduit}", name="get_produitsdeclinaison_getAllProduitDeclinaisons", methods={"GET"})
+     */
+    public function getAllProduitDeclinaisons($idProduit): Response {
+        $declinaisonsJson = $this->serializer->serialize($this->produitDeclinaisonRepository->findBy(["idProduit" => $idProduit]), "json");
         return new JsonResponse($declinaisonsJson, Response::HTTP_OK, [], true);
     }
 

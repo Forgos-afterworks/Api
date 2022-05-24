@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Rubrique
@@ -17,6 +18,7 @@ class Rubrique {
      * @ORM\Column(name="id_rubrique", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("article_read")
      */
     private $idRubrique;
 
@@ -24,6 +26,7 @@ class Rubrique {
      * @var string
      *
      * @ORM\Column(name="titre", type="string", length=50, nullable=false)
+     * @Groups("article_read")
      */
     private $titre;
 
@@ -31,6 +34,7 @@ class Rubrique {
      * @var string
      *
      * @ORM\Column(name="description", type="text", length=65535, nullable=false)
+     * @Groups("article_read")
      */
     private $description;
 

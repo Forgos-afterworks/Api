@@ -49,23 +49,20 @@ class ProduitController extends AbstractController {
     }
 
     /**
+     * @Route("/api/produits/{id}", name="api_produit_getproductsbyid", methods={"GET"})
+     */
+    public function getProduitByID($id): Response {
+        $products = $this->produitRepository->find($id);
+        $productsJson = $this->serializer->serialize($products, 'json', ["groups" => "produit_read"]);
+        return new JsonResponse($productsJson, Response::HTTP_OK, [], true);
+    }
+
+    /**
      * @Route("/api/produits/categorie/{idCategorie}", name="get_produit_getProduitsByCaterory", methods={"GET"})
      */
     public function getProduitsByCaterory(int $idCategorie):Response {
         $produitsJson = $this->serializer->serialize($this->produitRepository->findBy(["idCategorie" => $idCategorie]),
             "json", ["groups" => "produit_read"]);
-        return new JsonResponse($produitsJson, Response::HTTP_OK, [], true);
-    }
-
-    /**
-     * @Route("/api/produits/{id}", name="api_produit_getProduitById", methods={"GET"})
-     */
-    public function getProduitById(int $id): Response {
-        $produit = $this->produitRepository->find($id);
-        if (!$produit) {
-            return $this->produitDoesntExist();
-        }
-        $produitsJson = $this->serializer->serialize($produit, "json", ["groups" => "produit_read"]);
         return new JsonResponse($produitsJson, Response::HTTP_OK, [], true);
     }
 
